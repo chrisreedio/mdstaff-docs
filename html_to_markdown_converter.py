@@ -240,6 +240,92 @@ class DocumentationConverter:
         
         return markdown
     
+    def detect_and_wrap_json(self, text):
+        """Detect JSON code blocks and wrap them with proper markdown syntax"""
+        import json
+        lines = text.split('\n')
+        result_lines = []
+        i = 0
+        
+        while i < len(lines):
+            line = lines[i]
+            
+            # Look for lines that start with whitespace and contain only '{'
+            if re.match(r'^\s*{\s*$', line):
+                # Found potential JSON start, collect until matching '}'
+                json_lines = [line]
+                brace_count = 1
+                j = i + 1
+                
+                while j < len(lines) and brace_count > 0:
+                    json_lines.append(lines[j])
+                    # Count braces in this line
+                    for char in lines[j]:
+                        if char == '{':
+                            brace_count += 1
+                        elif char == '}':
+                            brace_count -= 1
+                            if brace_count == 0:
+                                break
+                    j += 1
+                
+                # Try to parse as JSON
+                json_text = '\n'.join(json_lines).strip()
+                try:
+                    json.loads(json_text)
+                    # Valid JSON - wrap it
+                    result_lines.append('```json')
+                    result_lines.append(json_text)
+                    result_lines.append('```')
+                    i = j
+                    continue
+                except (json.JSONDecodeError, ValueError):
+                    # Not valid JSON, add the first line and continue
+                    result_lines.append(line)
+                    i += 1
+                    continue
+            
+            # Look for lines that start with whitespace and contain only '['
+            elif re.match(r'^\s*\[\s*$', line):
+                # Found potential JSON array start
+                json_lines = [line]
+                bracket_count = 1
+                j = i + 1
+                
+                while j < len(lines) and bracket_count > 0:
+                    json_lines.append(lines[j])
+                    # Count brackets in this line
+                    for char in lines[j]:
+                        if char == '[':
+                            bracket_count += 1
+                        elif char == ']':
+                            bracket_count -= 1
+                            if bracket_count == 0:
+                                break
+                    j += 1
+                
+                # Try to parse as JSON
+                json_text = '\n'.join(json_lines).strip()
+                try:
+                    json.loads(json_text)
+                    # Valid JSON array - wrap it
+                    result_lines.append('```json')
+                    result_lines.append(json_text)
+                    result_lines.append('```')
+                    i = j
+                    continue
+                except (json.JSONDecodeError, ValueError):
+                    # Not valid JSON, add the first line and continue
+                    result_lines.append(line)
+                    i += 1
+                    continue
+            
+            # Regular line, just add it
+            result_lines.append(line)
+            i += 1
+        
+        return '\n'.join(result_lines)
+    
     def elements_to_markdown(self, elements):
         """Convert a list of HTML elements to markdown"""
         if not elements:
@@ -260,6 +346,8 @@ class DocumentationConverter:
         markdown = re.sub(r'\n\n\n+', '\n\n', markdown)  # Remove excessive newlines
         # Fix malformed headers with empty anchor links
         markdown = re.sub(r'^(#{1,6})\s*\[\]\([^)]+\)(.*)$', r'\1 \2', markdown, flags=re.MULTILINE)
+        # Detect and wrap JSON code blocks
+        markdown = self.detect_and_wrap_json(markdown)
         markdown = markdown.strip()
         
         return markdown
