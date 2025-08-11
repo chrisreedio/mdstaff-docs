@@ -12,4 +12,3 @@
 - [Medical History](medical-history.md)
 - [Provider File](provider-file.md)
 - [Provider Privilege](provider-privilege.md)
-- [Privileges](privileges.md)

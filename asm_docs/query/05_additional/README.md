@@ -12,5 +12,3 @@
 - [Leadership](leadership.md)
 - [Malpractice Claims](malpractice-claims.md)
 - [Passport](passport.md)
-- [Preferred Contact Methods](preferred-contact-methods.md)
-- [Supervisor](supervisor.md)

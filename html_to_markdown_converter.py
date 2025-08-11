@@ -44,6 +44,9 @@ class DocumentationConverter:
         
         # Document structure based on document type
         self.structure = self.get_document_structure()
+        
+        # Track created files for index generation
+        self.created_files = {}
     
     def clean_filename_for_directory(self, filename):
         """Clean HTML filename to create a proper directory name"""
@@ -457,9 +460,14 @@ Each folder contains detailed documentation for that section. Start with the Ove
 ## Sections in this folder:
 
 """
-            for section in info["sections"]:
-                section_title = section.replace("-", " ").title()
-                index_content += f"- [{section_title}]({section}.md)\n"
+            # Only include links to files that were actually created
+            created_sections = self.created_files.get(category, [])
+            if created_sections:
+                for section in created_sections:
+                    section_title = section.replace("-", " ").title()
+                    index_content += f"- [{section_title}]({section}.md)\n"
+            else:
+                index_content += "*No sections found in the source document for this category.*\n"
             
             with open(folder_path / "README.md", 'w', encoding='utf-8') as f:
                 f.write(index_content)
@@ -490,6 +498,12 @@ Each folder contains detailed documentation for that section. Start with the Ove
                 if title and content_elements:
                     markdown_content = self.elements_to_markdown(content_elements)
                     self.create_section_file(folder_path, section, title, markdown_content, path_mapping)
+                    
+                    # Track created files for index generation
+                    if category not in self.created_files:
+                        self.created_files[category] = []
+                    self.created_files[category].append(section)
+                    
                     print(f"    ✓ Created {section}.md")
                 else:
                     # Skip placeholder files - commented out to avoid generating empty files

@@ -2,8 +2,4 @@
 
 ## Sections in this folder:
 
-- [User](user.md)
-- [User Roles](user-roles.md)
-- [Group](group.md)
-- [Group Membership](group-membership.md)
-- [Security Permissions](security-permissions.md)
+*No sections found in the source document for this category.*
