@@ -9,7 +9,8 @@ For this example, the Rule to be tested is:
 #### Example Json request body:
     
     
-    {
+```json
+{
       "DataObject": {
         "AddressID": "681ceaf0-5593-444d-bc47-32d4ba6eb878",
         "ProviderID": "27efee9f-8cc4-48e9-9bb3-c15bcf610fd9",
@@ -143,5 +144,6 @@ For this example, the Rule to be tested is:
         "WorkflowName": "Track New Address"
       }
     }
+```
 
 [](https://support.asm-inc.com/hc/en-us/articles/6527040404891-Triggered-Webhooks#)

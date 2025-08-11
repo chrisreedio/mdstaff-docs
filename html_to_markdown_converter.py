@@ -492,9 +492,9 @@ Each folder contains detailed documentation for that section. Start with the Ove
                     self.create_section_file(folder_path, section, title, markdown_content, path_mapping)
                     print(f"    ✓ Created {section}.md")
                 else:
-                    # Create placeholder file
-                    self.create_section_file(folder_path, section, section.replace("-", " ").title(), None, path_mapping)
-                    print(f"    ⚠ Created placeholder for {section}.md")
+                    # Skip placeholder files - commented out to avoid generating empty files
+                    # self.create_section_file(folder_path, section, section.replace("-", " ").title(), None, path_mapping)
+                    print(f"    ⚠ Skipped {section}.md (no content found)")
         
         # Create index files
         print("Creating index files...")
