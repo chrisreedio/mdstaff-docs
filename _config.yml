@@ -1,6 +1,6 @@
 title: ASM MD-Staff Documentation
 description: API Documentation for MD-Staff Query Endpoints and Webhooks
-theme: minima
+remote_theme: pages-themes/midnight@v0.2.0
 
 # Exclude the converter and HTML files
 exclude:
