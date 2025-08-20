@@ -1,9 +1,9 @@
 title: ASM MD-Staff Documentation
 description: API Documentation for MD-Staff Query Endpoints and Webhooks
-theme: jekyll-theme-midnight
-# remote_theme: pages-themes/midnight@v0.2.0
+# theme: jekyll-theme-midnight
+remote_theme: pages-themes/midnight
 # plugins:
-#   - jekyll-remote-theme
+  # - jekyll-remote-theme
 
 # Exclude the converter and HTML files
 exclude:
