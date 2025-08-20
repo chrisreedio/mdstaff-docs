@@ -1,0 +1,9 @@
+title: ASM MD-Staff Documentation
+description: API Documentation for MD-Staff Query Endpoints and Webhooks
+theme: minima
+
+# Exclude the converter and HTML files
+exclude:
+  - html_to_markdown_converter.py
+  - "*.html"
+  - "*_files/"
